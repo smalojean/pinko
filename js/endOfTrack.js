@@ -11,7 +11,7 @@ export class EndOfTrack {
   }
 
   render(ctx, canvas) {
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "#f3f3f3";
     ctx.beginPath();
     ctx.moveTo(0, this.y);
     ctx.lineTo(canvas.width, this.y);

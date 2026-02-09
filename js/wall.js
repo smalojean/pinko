@@ -20,7 +20,7 @@ export class Wall {
   }
 
   render(ctx) {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "#f3f3f3";
     ctx.fillRect(this.x - this.width/2, 0, this.width, this.canvasHeight);
   }
 }
