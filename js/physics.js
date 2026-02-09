@@ -49,3 +49,44 @@ export function applyGravity(ball, canvasWidth, endOfTrack, pins, walls) {
     }
   }
 }
+
+export function resolveBallCollision(a, b) {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const dist = Math.hypot(dx, dy);
+    const minDist = a.radius + b.radius;
+  
+    if (dist === 0 || dist >= minDist) return;
+  
+    // normal
+    const nx = dx / dist;
+    const ny = dy / dist;
+  
+    // empêcher le chevauchement
+    const overlap = minDist - dist;
+    const correction = overlap / 2;
+  
+    a.x -= nx * correction;
+    a.y -= ny * correction;
+    b.x += nx * correction;
+    b.y += ny * correction;
+  
+    // vitesse relative
+    const rvx = b.vx - a.vx;
+    const rvy = b.vy - a.vy;
+    const velAlongNormal = rvx * nx + rvy * ny;
+  
+    if (velAlongNormal > 0) return;
+  
+    const restitution = 0.9; // rebond
+  
+    const impulse = -(1 + restitution) * velAlongNormal / 2;
+  
+    const ix = impulse * nx;
+    const iy = impulse * ny;
+  
+    a.vx -= ix;
+    a.vy -= iy;
+    b.vx += ix;
+    b.vy += iy;
+  }

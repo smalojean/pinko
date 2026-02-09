@@ -1,5 +1,5 @@
 import { Ball } from "./ball.js";
-import { applyGravity } from "./physics.js";
+import { applyGravity, resolveBallCollision } from "./physics.js";
 import { Countdown } from "./countdown.js";
 import { render } from "./renderer.js";
 import { EndOfTrack } from "./endOfTrack.js";
@@ -99,7 +99,7 @@ function loop() {
 
   if (isStarted && countdown && countdown.isFinished) {
     for (const ball of balls) {
-      if (raceFinished) break;
+      // if (raceFinished) break;
       applyGravity(ball, canvas.width, endOfTrack, pins, walls, winner);
 
       // Vérifier si la balle a atteint le "end of track"
@@ -107,6 +107,12 @@ function loop() {
         winner = ball;
         raceFinished = true;
         console.log("Winner!", ball.label);
+      }
+    }
+
+    for (let i = 0; i < balls.length; i++) {
+      for (let j = i + 1; j < balls.length; j++) {
+        resolveBallCollision(balls[i], balls[j]);
       }
     }
   }
